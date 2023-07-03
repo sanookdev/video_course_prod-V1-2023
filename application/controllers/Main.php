@@ -19,14 +19,20 @@ class Main extends CI_Controller
 		$data['countVideos'] = $this->countVideos();
 		$options = $this->get_options();
 		$data['options'] = $options;
+		$data['titles'] = $this->get_titles_video();
 		$this->load->view('myCss');
 		$this->load->view('myJs');
-		$this->load->view('_partials/head');
+		$this->load->view('_partials/head',$data);
 		$this->load->view('_partials/navbar');
 		$this->load->view('_partials/sidebar_main');
-		$this->load->view('dashboard',$data);
+		$this->load->view('dashboard');
 		$this->load->view('_partials/sidebar_control');
 		$this->load->view('_partials/footer');
+	}
+
+	public function get_titles_video(){
+		$this->load->model('Video_model');
+		return $this->Video_model->fetchTitle();
 	}
 
 	public function get_options(){

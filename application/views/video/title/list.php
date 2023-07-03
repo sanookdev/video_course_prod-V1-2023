@@ -46,7 +46,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <div class="card-header">
                                     <h3 class="card-title">All Title</h3>
                                     <div class="card-tools">
-                                        <a href="<?= site_url('videos/addTitle')?>" class="text-success">
+                                        <a href="<?= site_url('videos/addtitle')?>" class="text-success">
                                             <i class="fas fa-plus"></i> Add Title
                                         </a>
                                     </div>
@@ -91,6 +91,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                     <input type="hidden" name="form_submit" value="">
                                                 </td>
                                                 <td>
+
                                                     <a class="btn btn-danger" targetDiv="" data-id="<?= $value->id?>"
                                                         onclick="deleteTitle('<?= $value->id ;?>')"><i
                                                             class="fas fa-trash"></i></a>

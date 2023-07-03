@@ -10,22 +10,23 @@ class Users extends CI_Controller
 				$this->load->model('User_model');
 			}
 			$this->load->model('Video_model');
+			$this->load->model('Setting_model');
 			$this->title =  $this->Video_model->fetchTitle();
+			$this->options = $this->Setting_model->get_options();
 		}else{
 			redirect('member');
 		}
 	}
 	public function report($response = null)
 	{
-		$this->load->model('Setting_model');
         $data['users'] = $this->User_model->fetchAll();
-        $data['options'] = $this->Setting_model->get_options();
-		$data['title_menu'] = $this->title;
+        $data['options'] = $this->options;
+		$data['titles'] = $this->title;
 		$this->load->view('myCss');
 		$this->load->view('myJs');
-		$this->load->view('_partials/head');
+		$this->load->view('_partials/head' , $data);
 		$this->load->view('_partials/navbar');
-		$this->load->view('_partials/sidebar_main' , $data);
+		$this->load->view('_partials/sidebar_main');
 		$this->load->view('user/report');
 		$this->load->view('modal_event/reset_pass');
 		$this->load->view('_partials/sidebar_control');
@@ -33,12 +34,13 @@ class Users extends CI_Controller
 	}
 	public function add()
 	{
-		$data['title_menu'] = $this->title;
+		$data['options'] = $this->options;
+		$data['titles'] = $this->title;
 		$this->load->view('myCss');
 		$this->load->view('myJs');
-		$this->load->view('_partials/head');
+		$this->load->view('_partials/head', $data);
 		$this->load->view('_partials/navbar');
-		$this->load->view('_partials/sidebar_main' , $data);
+		$this->load->view('_partials/sidebar_main' );
 		$this->load->view('user/add');
 		$this->load->view('_partials/sidebar_control');
 		$this->load->view('_partials/footer');
@@ -46,12 +48,13 @@ class Users extends CI_Controller
 
 	public function uploadPage()
 	{
-		$data['title_menu'] = $this->title;
+		$data['options'] = $this->options;
+		$data['titles'] = $this->title;
 		$this->load->view('myCss');
 		$this->load->view('myJs');
-		$this->load->view('_partials/head');
+		$this->load->view('_partials/head', $data);
 		$this->load->view('_partials/navbar');
-		$this->load->view('_partials/sidebar_main' , $data);
+		$this->load->view('_partials/sidebar_main' );
 		$this->load->view('user/import');
 		$this->load->view('_partials/sidebar_control');
 		$this->load->view('_partials/footer');

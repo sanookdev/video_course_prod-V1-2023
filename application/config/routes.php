@@ -57,6 +57,7 @@ $route['default_controller'] = 'Main/dashboard';
 //  ---------------------------    USERS MANAGEMENT    -------------------------------
 
 $route['users'] = 'Users/report';
+$route['users/add'] = 'Users/add';
 $route['login'] = 'auth';
 $route['users/upload'] = 'Users/uploadPage';
 $route['dashboard'] = 'Main/dashboard';
@@ -73,12 +74,14 @@ $route['video/users'] = 'Videos/users';
 
 //  ---------------------------    VIDEOS MANAGEMENT    -------------------------------
 $route['setting'] = 'setting';
-$route['video/listtitle'] = 'Videos/listTitle';
+$route['videos/title'] = 'Videos/list_title';
+$route['videos/addtitle'] = 'Videos/addTitle';
+$route['videos/list'] = 'Videos/list_video';
 // $route['video/users'] = 'Videos/users';
 //  ---------------------------    VIDEOS MANAGEMENT (END)    -------------------------------
 
 
-// ----------------------------    UPLOAD MANAGEMENT    ----------------------------
+// ----------------------------    UPLOAD MANAGEMENT    ---------------------------- titles
 $route['upload/upload_image'] = 'upload/upload_image';
 $route['upload/remove_image/(:any)'] = 'upload/remove_image/$1';
 

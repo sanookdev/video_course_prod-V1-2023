@@ -23,7 +23,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/video_course_sex_prod2023/';
+$ssl = '';
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+    $ssl = "https://";
+} else {
+    $ssl = "http://";
+}
+$root = $ssl . $_SERVER['HTTP_HOST'];
+
+$root .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
+$config['base_url'] = $root;
+// $config['base_url'] = 'http://localhost/video_course_sex_prod2023/';
 
 $config['site_name'] = "SEXology videos";
 

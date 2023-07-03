@@ -21,15 +21,11 @@ class Setting extends CI_Controller
 
         $data['options'] = $this->get_options();
 		$data['title_menu'] = $this->title;
-		if($response != null){
-			$data['response'] = $response ;
-		}
-		
         $this->load->view('myCss');
 		$this->load->view('myJs');
-		$this->load->view('_partials/head');
+		$this->load->view('_partials/head',$data);
 		$this->load->view('_partials/navbar');
-		$this->load->view('_partials/sidebar_main',$data);
+		$this->load->view('_partials/sidebar_main');
 		$this->load->view('setting');
 		$this->load->view('_partials/sidebar_control');
 		$this->load->view('_partials/footer');

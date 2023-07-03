@@ -64,7 +64,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                 <th width="10%">Last updated</th>
                                                 <th>Title Name</th>
                                                 <th width="5%">status</th>
-                                                <th width="5%" class="pull-right">#</th>
+                                                <th width="10%" class="pull-right">#</th>
                                             </tr>
                                         </thead>
                                         <tbody class="data">
@@ -91,9 +91,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                     <input type="hidden" name="form_submit" value="">
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-danger" targetDiv="" data-id="<?= $value->id?>"
-                                                        onclick="deleteTitle('<?= $value->id ;?>')"><i
-                                                            class="fas fa-trash"></i></a>
+                                                    <div class="form-row">
+                                                        <div class="col-md">
+                                                            <a class="btn btn-info"
+                                                                onclick="previewVideo('<?= $value->id ;?>')"><i
+                                                                    class="fas fa-video"></i></a>
+                                                        </div>
+                                                        <div class="col-md">
+                                                            <a class="btn btn-danger" targetDiv=""
+                                                                data-id="<?= $value->id?>"
+                                                                onclick="deleteTitle('<?= $value->id ;?>')"><i
+                                                                    class="fas fa-trash"></i></a>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <?$i++;
@@ -128,6 +138,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 await hideOverlay();
             }
             initialLoad();
+
+
+            previewVideo = (v_id) => {
+                console.log(v_id);
+            }
 
             changePublic = (e, id, target, column) => {
                 let where = "id=" + id;

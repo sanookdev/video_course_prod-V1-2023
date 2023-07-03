@@ -40,9 +40,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-4">
-                            <? $this->load->view('_partials/calendar'); ?>
-                        </div>
-                        <div class="col-sm-4">
                             <div class="small-box" style="background-color:rgb(245, 105, 84);">
                                 <div class="inner">
                                     <h3><?= $countVideos;?></h3>
@@ -51,10 +48,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <div class="icon">
                                     <i class="fas fa-video"></i>
                                 </div>
-                                <a href="<?= site_url('videos/listvideo');?>" class="small-box-footer">
+                                <a href="<?= site_url('videos/list');?>" class="small-box-footer">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                             </div>
+
+                        </div>
+                        <div class="col-sm-4">
                             <div class="small-box bg-gradient-info">
                                 <div class="inner">
                                     <h3><?= $countUsers;?></h3>

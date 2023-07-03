@@ -82,7 +82,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <hr>
                                     <div class="form-row">
                                         <div class="col-md-4">
-                                            <form class="uploadForm" action="<?= site_url('setting/upload_image') ?>"
+                                            <form class="uploadForm" action="<?= base_url('setting/upl_img') ?>"
                                                 method="POST" enctype="multipart/form-data">
                                                 <div><a href="#" class="pop_banner">
                                                         <img id="imageresource1"
@@ -100,7 +100,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             </form>
                                         </div>
                                         <div class="col-md-4">
-                                            <form class="uploadForm" action="<?= site_url('setting/upload_image') ?>"
+                                            <form class="uploadForm" action="<?= base_url('setting/upl_img') ?>"
                                                 method="POST" enctype="multipart/form-data">
                                                 <div class=""><a href="#" class="pop_banner">
                                                         <img id="imageresource2"
@@ -118,7 +118,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             </form>
                                         </div>
                                         <div class="col-md-4">
-                                            <form class="uploadForm" action="<?= site_url('setting/upload_image') ?>"
+                                            <form class="uploadForm" action="<?= base_url('setting/upl_img') ?>"
                                                 method="POST" enctype="multipart/form-data">
                                                 <div class=""><a href="#" class="pop_banner">
                                                         <img id="background_img_login"
@@ -202,13 +202,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                 e.preventDefault();
 
-
                 // Disable the upload button
                 $('button[type="submit"]').attr('disabled', true);
 
                 // AJAX request to upload the image
                 $.ajax({
-                    url: "<?php echo base_url(); ?>setting/upl_img",
+                    url: $(this).attr('action'),
                     type: 'POST',
                     data: new FormData(this),
                     dataType: 'json',
@@ -232,6 +231,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         $("#file-progress-bar").width('0%');
                     },
                     success: function(response) {
+                        // console.log(response);
                         if (response.status) {
                             $('button[type="submit"]').attr('disabled', false);
                             alertify
@@ -258,8 +258,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
             });
     });
     </script>
-
-    <!-- Container to display the uploaded image -->
 </body>
 
 </html>

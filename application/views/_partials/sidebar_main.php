@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <aside class="main-sidebar sidebar-dark-info elevation-4">
     <!-- Brand Logo -->
-    <a href="<?= site_url('./');?>" class="brand-link">
+    <a href="<?= site_url('./dashboard');?>" class="brand-link">
         <img src="<?= base_url('img/logo/medlogopng.png') ?>" alt="<?= $this->config->item('site_name'); ?>"
             class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light"><?= $this->session->options->sub_name ; ?>
@@ -43,7 +43,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <? foreach ($title_menu as $key => $value) {?>
+                        <? foreach ($titles as $key => $value) {?>
                         <li class="nav-item">
                             <a href="<?= site_url('videos/title/'.$value->id);?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -51,12 +51,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             </a>
                         </li>
                         <?}?>
-                        <!-- <li class="nav-item">
-                            <a href="#" id="course_title" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Diploma-in-Sexual-Medicine</p>
-                            </a>
-                        </li> -->
                     </ul>
                 </li>
 
@@ -70,13 +64,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?= site_url('videos/listtitle')?>" id="nav-listtitle" class="nav-link">
+                            <a href="<?= site_url('videos/title')?>" id="nav-listtitle" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Titles</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= site_url('videos/listvideo')?>" id="nav-listvideo" class="nav-link">
+                            <a href="<?= site_url('videos/list')?>" id="nav-listvideo" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Videos</p>
                             </a>
@@ -96,12 +90,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <a href="<?= site_url('users/report')?>" id="nav-report" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Users</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= site_url('users/add')?>" id="nav-add" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -133,39 +121,40 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
     const url = <?= json_encode(current_url());?>;
-    const lastSegment = url.substring(url.lastIndexOf('/') + 1);
+    const url_split = url.split('/');
+    const page = url_split[url_split.length - 2];
+    const action = url_split[url_split.length - 1];
     const colorMenu = <?= json_encode($this->session->options->menu_color)?>;
-
     checkActivePage = async () => {
         await clearActive();
         await addActivePage();
         await checkColorMenu();
-
     }
 
     clearActive = () => {
-        if (lastSegment != '') {
+        if (action != '') {
             $('.has-treeview').removeClass('active');
         }
     }
     addActivePage = () => {
-        if (lastSegment == "add") {
-            $('#nav-add').addClass('active');
-            $('.users_header').addClass('menu-open');
-        } else if (lastSegment == "report") {
-            $('#nav-report').addClass('active');
-            $('.users_header').addClass('menu-open');
-        } else if (lastSegment == "upload") {
-            $('#nav-upload').addClass('active');
-            $('.users_header').addClass('menu-open');
-        } else if (lastSegment == "setting") {
+        if (page == 'users') {
+            if (action == 'report' || action == 'add') {
+                $('#nav-report').addClass('active');
+                $('.users_header').addClass('menu-open');
+            } else if (action == 'upload') {
+                $('#nav-upload').addClass('active');
+                $('.users_header').addClass('menu-open');
+            }
+        } else if (page == 'videos') {
+            if (action == 'title' || action == 'addtitle') {
+                $('#nav-listtitle').addClass('active');
+                $('.contents_header').addClass('menu-open');
+            } else if (action == 'list') {
+                $('#nav-listvideo').addClass('active');
+                $('.contents_header').addClass('menu-open');
+            }
+        } else if (action == 'setting') {
             $('#nav-setting').addClass('setting_active');
-        } else if (lastSegment == "listtitle") {
-            $('#nav-listtitle').addClass('active');
-            $('.contents_header').addClass('menu-open');
-        } else if (lastSegment == "listvideo") {
-            $('#nav-listvideo').addClass('active');
-            $('.contents_header').addClass('menu-open');
         }
     }
     checkColorMenu = () => {
