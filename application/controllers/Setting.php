@@ -26,7 +26,7 @@ class Setting extends CI_Controller
 		$this->load->view('_partials/head',$data);
 		$this->load->view('_partials/navbar');
 		$this->load->view('_partials/sidebar_main');
-		$this->load->view('setting');
+		$this->load->view('admin/setting');
 		$this->load->view('_partials/sidebar_control');
 		$this->load->view('_partials/footer');
     }

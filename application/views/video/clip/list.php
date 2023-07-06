@@ -29,9 +29,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Videos Contents</a>
+                                <li class="breadcrumb-item"><a href="#">Videos</a>
                                 </li>
-                                <li class="breadcrumb-item active">Title</li>
+                                <li class="breadcrumb-item active"><?= $title[0]->name;?></li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -44,72 +44,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">All Videos</h3>
-                                    <div class="card-tools">
-                                        <a href="<?= site_url('videos/addVideo')?>" class="text-success">
-                                            <i class="fas fa-plus"></i> Add Video
-                                        </a>
-                                    </div>
+                                    <h3 class="card-title text-bold">
+                                        <?= $title[0]->name;?>
+                                    </h3>
                                 </div>
                                 <div class="card-body">
-                                    <a type="button" class="btn btn-danger float-left delete_all">Delete
-                                        Selected</a>
-
-                                    <table class="table table-bordered table-hover title_tb">
-                                        <thead>
-                                            <tr class="text-center bg-secondary">
-                                                <th width="3%"><input type="checkbox" id="master"></th>
-                                                <th width="5%">ID</th>
-                                                <th width="10%">Created</th>
-                                                <th width="10%">Last updated</th>
-                                                <th>Title Name</th>
-                                                <th width="5%">status</th>
-                                                <th width="10%" class="pull-right">#</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="data">
-                                            <?$i = 1;
-                                            foreach ($videos as $key => $value) {?>
-                                            <tr class="text-center">
-                                                <td>
-                                                    <input type="checkbox" class="sub_chk" data-id="<?= $value->id;?>">
-                                                </td>
-                                                <td><?= $value->id;?></td>
-                                                <td><?= $value->created;?></td>
-                                                <td><?= $value->last_updated;?></td>
-                                                <td><?= $value->name;?></td>
-                                                <td>
-                                                    <div class="custom-control custom-switch">
-                                                        <input
-                                                            onclick="changePublic(this,'<?= $value->id?>','tb_title','status')"
-                                                            type="checkbox" class="custom-control-input"
-                                                            id="<?= 'status'.$i ;?>" name='machine_state'
-                                                            <?= ($value->status) ? "checked" : ""?>>
-                                                        <label class="custom-control-label" for="<?= 'status'.$i ;?>">
-                                                        </label>
-                                                    </div>
-                                                    <input type="hidden" name="form_submit" value="">
-                                                </td>
-                                                <td>
-                                                    <div class="form-row">
-                                                        <div class="col-md">
-                                                            <a class="btn btn-info"
-                                                                onclick="previewVideo('<?= $value->id ;?>')"><i
-                                                                    class="fas fa-video"></i></a>
-                                                        </div>
-                                                        <div class="col-md">
-                                                            <a class="btn btn-danger" targetDiv=""
-                                                                data-id="<?= $value->id?>"
-                                                                onclick="deleteTitle('<?= $value->id ;?>')"><i
-                                                                    class="fas fa-trash"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <?$i++;
-                                        }?>
-                                        </tbody>
-                                    </table>
+                                    <?
+                                        if(count($contents) == 0){
+                                            echo "Video is empty.";
+                                        }
+                                        foreach ($contents as $key => $value) {?>
+                                    <div class="card card-info card-outline">
+                                        <div class="card-header">
+                                            <h5 class="card-title">
+                                                <?= $value->name."<br><p class = 'small text-info'>updated : ".$value->last_updated."</p>" ;?>
+                                            </h5>
+                                            <div class="card-tools">
+                                                <a href="#" class="btn btn-tool btn-link"><?= '#'.$value->id ;?></a>
+                                                <a href="<?= base_url('uploads/video/'.$value->title_id.'/'.$value->filename);?>"
+                                                    class="btn btn-tool">
+                                                    <i class="fas fa-video"></i>
+                                                </a>
+                                            </div>
+                                            <div class="card-body">
+                                                <button onclick="showVideo('<?= $value->title_id?>','<?= $value->id?>')"
+                                                    class="btn btn-sm btn-info btn-block">
+                                                    <i class="fas fa-video"></i> Click to show video. </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?}?>
                                 </div>
                             </div>
                         </div>
@@ -122,6 +86,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
         <script type="text/javascript">
         $(document).ready(function() {
+            const title = <?= json_encode($title[0]);?>;
+            console.log(title);
+
             setupDataTable = () => {
                 $('.title_tb').DataTable({
                     "paging": true,
@@ -140,8 +107,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
             initialLoad();
 
 
-            previewVideo = (v_id) => {
-                console.log(v_id);
+            showVideo = (title_id, v_id) => {
+                console.log(title_id, v_id);
             }
 
             changePublic = (e, id, target, column) => {

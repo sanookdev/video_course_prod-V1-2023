@@ -45,7 +45,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <ul class="nav nav-treeview">
                         <? foreach ($titles as $key => $value) {?>
                         <li class="nav-item">
-                            <a href="<?= site_url('videos/title/'.$value->id);?>" class="nav-link">
+                            <a href="<?= site_url('videos/subject/'.$value->id);?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p><?= $value->name ;?></p>
                             </a>
@@ -64,13 +64,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?= site_url('videos/title')?>" id="nav-listtitle" class="nav-link">
+                            <a href="<?= site_url('videos/title_manage')?>" id="nav-listtitle" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Titles</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= site_url('videos/list')?>" id="nav-listvideo" class="nav-link">
+                            <a href="<?= site_url('videos/list_manage')?>" id="nav-listvideo" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Videos</p>
                             </a>
@@ -125,6 +125,8 @@ $(document).ready(function() {
     const page = url_split[url_split.length - 2];
     const action = url_split[url_split.length - 1];
     const colorMenu = <?= json_encode($this->session->options->menu_color)?>;
+    const aLink = $('a[href^="' + url + '"]');
+
     checkActivePage = async () => {
         await clearActive();
         await addActivePage();
@@ -137,24 +139,22 @@ $(document).ready(function() {
         }
     }
     addActivePage = () => {
-        if (page == 'users') {
-            if (action == 'report' || action == 'add') {
-                $('#nav-report').addClass('active');
-                $('.users_header').addClass('menu-open');
-            } else if (action == 'upload') {
-                $('#nav-upload').addClass('active');
-                $('.users_header').addClass('menu-open');
-            }
-        } else if (page == 'videos') {
-            if (action == 'title' || action == 'addtitle') {
-                $('#nav-listtitle').addClass('active');
-                $('.contents_header').addClass('menu-open');
-            } else if (action == 'list') {
-                $('#nav-listvideo').addClass('active');
-                $('.contents_header').addClass('menu-open');
-            }
-        } else if (action == 'setting') {
+        aLink.addClass('active');
+        if (action == 'setting') {
             $('#nav-setting').addClass('setting_active');
+        }
+        if (page == 'users') {
+            $('.users_header').addClass('menu-open');
+        } else if (page == 'videos') {
+            $('.contents_header').addClass('menu-open');
+            if (action == 'addtitle') {
+                $('#nav-listtitle').addClass('active');
+            } else if (action == 'addvideo') {
+                $('#nav-listvideo').addClass('active');
+
+            }
+        } else if (page == 'subject') {
+            $('.course_menu').addClass('menu-open');
         }
     }
     checkColorMenu = () => {

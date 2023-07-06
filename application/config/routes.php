@@ -72,13 +72,19 @@ $route['video/users'] = 'Videos/users';
 //  ---------------------------    VIDEOS MANAGEMENT (END)    -------------------------------
 
 
-//  ---------------------------    VIDEOS MANAGEMENT    -------------------------------
+//  ---------------------------    ADMIN MANAGEMENT    -------------------------------
 $route['setting'] = 'setting';
-$route['videos/title'] = 'Videos/list_title';
-$route['videos/addtitle'] = 'Videos/addTitle';
-$route['videos/list'] = 'Videos/list_video';
+$route['videos/title_manage'] = 'Admin/list_title';
+$route['videos/addtitle'] = 'Admin/addTitle';
+$route['videos/list_manage'] = 'Admin/list_video';
+$route['videos/addvideo'] = 'Admin/addVideo';
 // $route['video/users'] = 'Videos/users';
-//  ---------------------------    VIDEOS MANAGEMENT (END)    -------------------------------
+//  ---------------------------    ADMIN MANAGEMENT (END)    -------------------------------
+
+// ---------------------------- FOR SHOW VIDEOS ----------------------------------
+$route['videos/subject/(:any)'] = 'Videos/subject/$1';
+// ---------------------------- FOR SHOW VIDEOS (END) ----------------------------------
+
 
 
 // ----------------------------    UPLOAD MANAGEMENT    ---------------------------- titles
