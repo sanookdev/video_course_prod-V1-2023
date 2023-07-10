@@ -8,11 +8,18 @@ class Videos extends CI_Controller
 		if(isset($this->session->userdata['user_role'])){
 			$this->load->model('Video_model');
 			$this->load->model('Setting_model');
-			$this->title =  $this->Video_model->fetchTitle();
+			$this->title =  $this->get_titles_video();
 			$base_video_path =  base_url('uploads/videos/');
-
 		}else{
 			redirect('member');
+		}
+	}
+
+	public function get_titles_video(){
+		if($this->session->userdata['user_role'] == '1'){
+			return $this->Video_model->fetchTitle();
+		}else{
+			return $this->Video_model->fetchTitleByUserId($this->session->userdata['id']);
 		}
 	}
 	
@@ -47,10 +54,13 @@ class Videos extends CI_Controller
 
 	public function subject($title_id = '1') {
 
-		$contents = $this->Video_model->fetchVideoByTitle($title_id);
+		if($this->session->userdata['user_role'] == '1'){
+			$contents = $this->Video_model->fetchVideoByTitle($title_id);
+		}else{
+			$contents = $this->Video_model->fetchVideoByTitleUnpublic($title_id);
+		}
 		$data['contents'] = $contents ;
 		$data['title'] = $this->Video_model->fetchTitleById($title_id);
-		$data['videos'] = $this->Video_model->fetchVideo();
         $data['options'] = $this->Setting_model->get_options();
 		$data['titles'] = $this->title;
 		$this->load->view('myCss');
@@ -61,17 +71,6 @@ class Videos extends CI_Controller
 		$this->load->view('video/clip/list');
 		$this->load->view('_partials/sidebar_control');
 		$this->load->view('_partials/footer');
-
-		// echo "<pre>";
-		// print_r($contents);
-		// echo "</pre>";
-        // Get the video URL from the database based on the $video_id
-
-        // Pass the video URL to the view
-        // $data['video_url'] = $base_video_path . $video_id . '/' .'video.mp4'; // Replace with your video URL
-        
-        // Load the view
-        // $this->load->view('video/video_player', $data);
     }
 
 	public function fetchVideoByTitle(){
@@ -89,16 +88,28 @@ class Videos extends CI_Controller
 		echo json_encode($result);
 	}
 
-	public function play($video_id = '1') {
+	public function play($video_id = null) {
 
-		echo $video_id;
-        // Get the video URL from the database based on the $video_id
-
-        // Pass the video URL to the view
-        // $data['video_url'] = $base_video_path . $video_id . '/' .'video.mp4'; // Replace with your video URL
-        
-        // Load the view
-        // $this->load->view('video/video_player', $data);
+		$video_details = $this->Video_model->fetchVideoById($video_id);
+        $data['options'] = $this->Setting_model->get_options();
+		$data['titles'] = $this->title;
+        $data['video_url'] = base_url('uploads/videos/').$video_details[0]->title_id.'/'.$video_details[0]->filename; 
+		$data['video_details'] = $video_details;
+		$data['title'] = $this->Video_model->fetchTitleById($video_details[0]->title_id);
+		if($this->session->userdata['user_role'] == '1'){
+			$contents = $this->Video_model->fetchVideoByTitle($data['title'][0]->id);
+		}else{
+			$contents = $this->Video_model->fetchVideoByTitleUnpublic($data['title'][0]->id);
+		}
+		$data['contents'] = $contents ;
+		$this->load->view('myCss');
+		$this->load->view('myJs');
+		$this->load->view('_partials/head',$data);
+		$this->load->view('_partials/navbar');
+		$this->load->view('_partials/sidebar_main');
+        $this->load->view('video/clip/play');
+		$this->load->view('_partials/sidebar_control');
+		$this->load->view('_partials/footer');
     }
 
 }

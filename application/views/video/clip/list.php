@@ -49,31 +49,31 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     </h3>
                                 </div>
                                 <div class="card-body">
-                                    <?
-                                        if(count($contents) == 0){
-                                            echo "Video is empty.";
-                                        }
-                                        foreach ($contents as $key => $value) {?>
-                                    <div class="card card-info card-outline">
-                                        <div class="card-header">
-                                            <h5 class="card-title">
-                                                <?= $value->name."<br><p class = 'small text-info'>updated : ".$value->last_updated."</p>" ;?>
-                                            </h5>
-                                            <div class="card-tools">
-                                                <a href="#" class="btn btn-tool btn-link"><?= '#'.$value->id ;?></a>
-                                                <a href="<?= base_url('uploads/video/'.$value->title_id.'/'.$value->filename);?>"
-                                                    class="btn btn-tool">
-                                                    <i class="fas fa-video"></i>
-                                                </a>
-                                            </div>
-                                            <div class="card-body">
-                                                <button onclick="showVideo('<?= $value->title_id?>','<?= $value->id?>')"
-                                                    class="btn btn-sm btn-info btn-block">
-                                                    <i class="fas fa-video"></i> Click to show video. </button>
+                                    <?if(count($contents) == 0){echo "Video is empty.";}?>
+                                    <div class="form-row">
+                                        <?foreach ($contents as $key => $value) {?>
+                                        <div class="col-md-4">
+                                            <div class="card card-info card-outline">
+                                                <div class="card-header">
+                                                    <h5 class="card-title">
+                                                        <?= $value->name."<br><p class = 'small text-info'>updated : ".$value->last_updated."</p>" ;?>
+                                                    </h5>
+                                                    <div class="card-tools">
+                                                        <a href="#" class="btn btn-tool"><?= 'V_ID #'.$value->id ;?></a>
+                                                        <a href="#" class="btn btn-tool">
+                                                            <i class="fas fa-video"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <button onclick="showVideo('<?= $value->id?>')"
+                                                            class="btn btn-sm btn-info btn-block">
+                                                            <i class="fas fa-video"></i> Click to show video. </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+                                        <?}?>
                                     </div>
-                                    <?}?>
                                 </div>
                             </div>
                         </div>
@@ -87,28 +87,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <script type="text/javascript">
         $(document).ready(function() {
             const title = <?= json_encode($title[0]);?>;
-            console.log(title);
 
-            setupDataTable = () => {
-                $('.title_tb').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                });
-            }
 
             initialLoad = async () => {
-                await setupDataTable();
                 await hideOverlay();
             }
             initialLoad();
 
 
-            showVideo = (title_id, v_id) => {
-                console.log(title_id, v_id);
+            showVideo = (v_id) => {
+                if (v_id != '' && typeof(v_id) !== undefined) {
+                    window.location.href = "<?= site_url('Videos/play/');?>" + v_id;
+                }
             }
 
             changePublic = (e, id, target, column) => {
@@ -142,7 +132,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 });
             }
 
-            $(document).on('click', '.edit_data', function() {
+            $(document).on('click', '.edit_data', () => {
                 var id = $(this).attr("id");
                 $('input[name="username"]').val(id);
                 $('#reset_pass').modal('show');

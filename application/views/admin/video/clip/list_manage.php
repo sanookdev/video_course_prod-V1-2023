@@ -59,7 +59,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <table class="table table-bordered table-hover videos_tb">
                                         <thead class="text-center bg-secondary">
                                             <tr>
-                                                <th width="3%"><input type="checkbox" id="master"></th>
+                                                <th width="3%"><input type="checkbox" id="master" disabled></th>
                                                 <th width="5%">V_ID</th>
                                                 <th>NAME</th>
                                                 <th width="10%">Filename</th>
@@ -73,7 +73,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             foreach ($videos as $key => $value) {?>
                                             <tr class="text-center">
                                                 <td>
-                                                    <input type="checkbox" class="sub_chk" data-id="<?= $value->id;?>">
+                                                    <input type="checkbox" disabled class="sub_chk"
+                                                        data-id="<?= $value->id;?>">
                                                 </td>
                                                 <td><?= $value->id;?></td>
                                                 <td><?= $value->name."<br><p class = 'text-small text-info'>course : ".$value->title_name."</p>";?>
@@ -141,8 +142,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
             }
 
             changePublic = (e, id, target, column) => {
-                let where = "id=" + id;
-                let table = target;
                 let data = {};
                 data['id'] = id;
                 data['column'] = column;
@@ -153,7 +152,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     data[column] = 0;
                 }
                 let baseUrl = "<?= base_url();?>";
-                let submissionURL = baseUrl + 'Videos/updateStatus';
+                let submissionURL = baseUrl + 'Admin/updateStatus';
                 $.ajax({
                     method: 'POST',
                     type: 'POST',

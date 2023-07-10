@@ -173,7 +173,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             $(".uploadForm")[0].reset();
                             $('button[type="submit"]').attr('disabled', false);
                             $('label[for=video]').text('ChooseVideo ( MP4 only )...');
-                            alertify.success(response.message);
+                            alertify.alert(response.message,
+                                function() {
+                                    window.history.back();
+                                });
                         } else {
                             $('button[type="submit"]').attr('disabled', false);
                             $("#file-progress-bar").width('0%');

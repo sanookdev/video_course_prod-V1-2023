@@ -53,6 +53,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <?}?>
                     </ul>
                 </li>
+                <? if ($this->session->userdata['user_role'] == '1'){?>
 
                 <li class="nav-header">MANAGE</li>
                 <li class="nav-item has-treeview contents_header">
@@ -109,6 +110,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </p>
                     </a>
                 </li>
+                <?}?>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
@@ -126,7 +128,15 @@ $(document).ready(function() {
     const action = url_split[url_split.length - 1];
     const colorMenu = <?= json_encode($this->session->options->menu_color)?>;
     const aLink = $('a[href^="' + url + '"]');
+    const title_id = <?= (isset($title)) ? json_encode($title[0]->id) : '"none"' ;?>;
+    if (page == 'play') {
 
+        let test = <?= json_encode(base_url('videos/subject/'));?> + title_id;
+
+        $('a[href^="' + test + '"]').addClass('active');
+    } else {
+
+    }
     checkActivePage = async () => {
         await clearActive();
         await addActivePage();
@@ -153,8 +163,9 @@ $(document).ready(function() {
                 $('#nav-listvideo').addClass('active');
 
             }
-        } else if (page == 'subject') {
+        } else if (page == 'subject' || page == 'play') {
             $('.course_menu').addClass('menu-open');
+
         }
     }
     checkColorMenu = () => {

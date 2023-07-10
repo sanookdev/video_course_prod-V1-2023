@@ -78,12 +78,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-
-    <script>
-    $(document).ready(() => {
-        hideOverlay();
-    })
-    </script>
 </body>
 
 </html>

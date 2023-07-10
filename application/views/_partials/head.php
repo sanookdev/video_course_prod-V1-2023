@@ -21,6 +21,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <body>
     <script>
     $(document).ready(() => {
+        const options = <?= json_encode($options);?>;
+        const users_session = <?= json_encode($this->session->userdata);?>
+
+        console.log(options);
+        console.log(users_session);
         showOverlay = () => {
             $('#overlay').show();
         }

@@ -38,6 +38,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <!-- /.content-header -->
             <section class="content">
                 <div class="container-fluid">
+                    <? if($this->session->userdata['user_role'] == '1'){?>
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="small-box" style="background-color:rgb(245, 105, 84);">
@@ -48,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <div class="icon">
                                     <i class="fas fa-video"></i>
                                 </div>
-                                <a href="<?= site_url('videos/list');?>" class="small-box-footer">
+                                <a href="<?= site_url('videos/list_manage');?>" class="small-box-footer">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                             </div>
@@ -69,6 +70,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             </div>
                         </div>
                     </div>
+                    <?}?>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">

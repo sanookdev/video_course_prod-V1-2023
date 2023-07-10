@@ -8,11 +8,14 @@ class Users extends CI_Controller
 		if(isset($this->session->userdata['user_role'])){
 			if($this->session->userdata['user_role'] == '1'){
 				$this->load->model('User_model');
+				$this->load->model('Video_model');
+				$this->load->model('Setting_model');
+				$this->title =  $this->Video_model->fetchTitle();
+				$this->options = $this->Setting_model->get_options();
+			}else{
+				redirect('dashboard');
 			}
-			$this->load->model('Video_model');
-			$this->load->model('Setting_model');
-			$this->title =  $this->Video_model->fetchTitle();
-			$this->options = $this->Setting_model->get_options();
+			
 		}else{
 			redirect('member');
 		}

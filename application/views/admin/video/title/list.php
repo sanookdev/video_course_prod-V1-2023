@@ -64,7 +64,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                 <th width="10%">Last updated</th>
                                                 <th>Title Name</th>
                                                 <th width="5%">status</th>
-                                                <th width="5%" class="pull-right">#</th>
+                                                <th width="10%" class="pull-right">#</th>
                                             </tr>
                                         </thead>
                                         <tbody class="data">
@@ -91,10 +91,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                     <input type="hidden" name="form_submit" value="">
                                                 </td>
                                                 <td>
+                                                    <div class="form-row">
+                                                        <div class="col-md">
+                                                            <a class="btn btn-info"
+                                                                href="<?= site_url('videos/title_manage_details/').$value->id;?>">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
 
-                                                    <a class="btn btn-danger" targetDiv="" data-id="<?= $value->id?>"
-                                                        onclick="deleteTitle('<?= $value->id ;?>')"><i
-                                                            class="fas fa-trash"></i></a>
+                                                            <a class="btn btn-danger" targetDiv=""
+                                                                data-id="<?= $value->id?>"
+                                                                onclick="deleteTitle('<?= $value->id ;?>')"><i
+                                                                    class="fas fa-trash"></i></a>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <?$i++;
@@ -136,6 +145,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 let data = {};
                 data['id'] = id;
                 data['column'] = column;
+                data['table'] = target;
                 if ($(e).is(":checked")) {
                     data[column] = 1;
                 } else {
@@ -168,6 +178,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     function() {
                         data['id'] = title_id;
                         var baseUrl = "<?= base_url();?>";
+                        // var submissionURL = baseUrl + 'Admin/deleteTitle';
                         var submissionURL = baseUrl + 'Admin/deleteTitle';
                         $.ajax({
                             type: "POST",

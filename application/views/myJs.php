@@ -19,3 +19,7 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.2.0/js/bootstrap-colorpicker.min.js">
 </script>
+
+<script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.6.0/popcorn.js"></script>

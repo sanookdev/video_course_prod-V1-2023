@@ -9,9 +9,7 @@ class Member extends CI_Controller {
 	public function index()
 	{
 		if(isset($this->session->userdata['user_role'])){
-			if($this->session->userdata['user_role'] == '1'){
-				redirect('dashboard');
-			}
+			redirect('dashboard');
 		}else{
 			$this->signin();
 		}
@@ -61,7 +59,6 @@ class Member extends CI_Controller {
 
 	public function logout(){
 		$this->session->sess_destroy();
-		// print_r($this->session);
 		redirect('member');
 	}
 }

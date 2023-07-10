@@ -8,10 +8,11 @@ class Setting extends CI_Controller
 		if(isset($this->session->userdata['user_role'])){
 			if($this->session->userdata['user_role'] == '1'){
 				$this->load->model('Setting_model');
+				$this->load->model('Video_model');
+				$this->title =  $this->Video_model->fetchTitle();
+			}else{
+				redirect('member');
 			}
-			$this->load->model('Video_model');
-			$this->title =  $this->Video_model->fetchTitle();
-
 		}else{
 			redirect('member');
 		}
@@ -20,7 +21,7 @@ class Setting extends CI_Controller
     public function index($response = null){
 
         $data['options'] = $this->get_options();
-		$data['title_menu'] = $this->title;
+		$data['titles'] = $this->title;
         $this->load->view('myCss');
 		$this->load->view('myJs');
 		$this->load->view('_partials/head',$data);

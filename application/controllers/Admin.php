@@ -6,11 +6,14 @@ class Admin extends CI_Controller
     public function __construct(){
 		parent::__construct();
 		if(isset($this->session->userdata['user_role'])){
-			$this->load->model('Video_model');
-			$this->load->model('Setting_model');
-			$this->title =  $this->Video_model->fetchTitle();
-			$base_video_path =  base_url('uploads/videos/');
-
+			if($this->session->userdata['user_role'] == '1'){
+				$this->load->model('Video_model');
+				$this->load->model('Setting_model');
+				$this->title =  $this->Video_model->fetchTitle();
+				$base_video_path =  base_url('uploads/videos/');
+			}else{
+				redirect('dashboard');
+			}
 		}else{
 			redirect('member');
 		}
@@ -46,6 +49,7 @@ class Admin extends CI_Controller
 	
 	public function addTitle()
 	{
+        $data['options'] = $this->Setting_model->get_options();
 		$data['titles'] = $this->title;
 		$this->load->view('myCss');
 		$this->load->view('myJs');
@@ -178,19 +182,65 @@ class Admin extends CI_Controller
 
 		$data = $this->input->post('data');
 		$title_id = $data['id'];
-		$dataDelete = array(
-			'id' => $title_id
-		);
+		$path_directory = "uploads/videos/".$title_id;
+		$videos_in_dir = $this->Video_model->getVideosInDir($title_id);
 		$result = array();
-		if($this->Video_model->deleteTitle($title_id)){
-			$result['message'] = 'Deleted title id : ' . $title_id;
-			$result['status'] = '1';
-		}else{
-			$result['message'] = $this->Video_model->deleteTitle($title_id);
-			$result['status'] = '0';
+		$empStatus = true;
+		foreach ($videos_in_dir as $key => $value) {
+			if(!$this->deleteVideoBeforeDir($value->id,$value->title_id,$value->filename)){
+				$result['status'] = '0';
+				$result['message'] = 'Cannot delete file name '.$value->filename;
+				$empStatus = false;
+				break;
+			}
 		}
+
+		if($empStatus && is_dir($path_directory)){
+			if(!$this->delete_directory($path_directory)){
+				$result['message'] = 'Cannot delete directory id '.$path_directory ;
+				$result['status'] = '0';
+				$empStatus = false;
+			}
+		}
+		
+		if($empStatus){
+			if($this->Video_model->deleteTitle($title_id)){
+				$result['message'] = 'Deleted title id : ' . $title_id;
+				$result['status'] = '1';
+			}else{
+				$result['message'] = $this->Video_model->deleteTitle($title_id);
+				$result['status'] = '0';
+			}
+		}
+
 		echo json_encode($result);
 	}
+
+	public function deleteVideoBeforeDir($video_id,$title_id,$filename){
+		$videoPath = 'uploads/videos/'.$title_id.'/'.$filename;
+		$result = array();
+		if($this->Video_model->deleteVideo($video_id)){
+			if(unlink($videoPath)){
+				return 1;
+			}else{
+				return 0;
+			}
+		}else{
+			return 0;
+		}
+	}
+
+	private function delete_directory($directory_path)
+    {
+        $files = array_diff(scandir($directory_path), array('.', '..'));
+
+        foreach ($files as $file) {
+            (is_dir("$directory_path/$file")) ? $this->delete_directory("$directory_path/$file") : unlink("$directory_path/$file");
+        }
+
+        return rmdir($directory_path);
+    }
+
 	public function deleteVideo(){
 
 		$data = $this->input->post('data');
@@ -232,44 +282,38 @@ class Admin extends CI_Controller
 		echo json_encode($result);
 	}
 
-	public function subject($title_id = '1') {
+	public function addMultiple(){
+		$dataSelected = $this->input->post('data');
+		$table = $this->input->post('table');
+		$result = array();
+		if($this->Video_model->addMultiple($dataSelected,$table)){
+			$result['message'] = "Account selected has been deleted.";
+			$result['status'] = '1';
 
-		$contents = $this->Video_model->fetchVideoByTitle($title_id);
-		$data['contents'] = $contents ;
-		$data['videos'] = $this->Video_model->fetchVideo();
+		}else{
+			$result['message'] = $this->Video_model->deleteMultiple($dataSelected,$table);
+			$result['status'] = '0';
+		}
+		echo json_encode($result);
+	}
+	
+	public function title_manage_details($title_id = null)
+	{
         $data['options'] = $this->Setting_model->get_options();
 		$data['titles'] = $this->title;
+		$data['title'] = $this->Video_model->fetchTitleById($title_id);
+		$data['videos'] = $this->Video_model->fetchVideoByTitle($title_id);
+		$data['users_active'] = $this->Video_model->fetchUsersPermissionByTitle($title_id);
+		$data['users_inactive'] = $this->Video_model->fetchUsersNonePermissionByTitle($title_id);
+		$this->load->model('User_model');
+		$data['users'] = $this->User_model->fetchAll();
 		$this->load->view('myCss');
 		$this->load->view('myJs');
-		$this->load->view('_partials/head',$data);
+		$this->load->view('_partials/head', $data);
 		$this->load->view('_partials/navbar');
 		$this->load->view('_partials/sidebar_main');
-		$this->load->view('video/clip/list');
+		$this->load->view('admin/video/title/details');
 		$this->load->view('_partials/sidebar_control');
-		// $this->load->view('_partials/footer');
-
-		// echo "<pre>";
-		// print_r($contents);
-		// echo "</pre>";
-        // Get the video URL from the database based on the $video_id
-
-        // Pass the video URL to the view
-        // $data['video_url'] = $base_video_path . $video_id . '/' .'video.mp4'; // Replace with your video URL
-        
-        // Load the view
-        // $this->load->view('video/video_player', $data);
-    }
-
-	public function play($video_id = '1') {
-
-		echo $video_id;
-        // Get the video URL from the database based on the $video_id
-
-        // Pass the video URL to the view
-        // $data['video_url'] = $base_video_path . $video_id . '/' .'video.mp4'; // Replace with your video URL
-        
-        // Load the view
-        // $this->load->view('video/video_player', $data);
-    }
-
+		$this->load->view('_partials/footer');
+	}
 }

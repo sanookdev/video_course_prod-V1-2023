@@ -6,9 +6,8 @@ class Main extends CI_Controller
     public function __construct(){
 		parent::__construct();
 		if(isset($this->session->userdata['user_role'])){
-			if($this->session->userdata['user_role'] == '1'){
-				$this->get_options();
-			}
+			$this->get_options();
+			$this->titles = $this->get_titles_video();
 		}else{
 			redirect('member');
 		}
@@ -19,7 +18,7 @@ class Main extends CI_Controller
 		$data['countVideos'] = $this->countVideos();
 		$options = $this->get_options();
 		$data['options'] = $options;
-		$data['titles'] = $this->get_titles_video();
+		$data['titles'] = $this->titles;
 		$this->load->view('myCss');
 		$this->load->view('myJs');
 		$this->load->view('_partials/head',$data);
@@ -32,7 +31,11 @@ class Main extends CI_Controller
 
 	public function get_titles_video(){
 		$this->load->model('Video_model');
-		return $this->Video_model->fetchTitle();
+		if($this->session->userdata['user_role'] == '1'){
+			return $this->Video_model->fetchTitle();
+		}else{
+			return $this->Video_model->fetchTitleByUserId($this->session->userdata['id']);
+		}
 	}
 
 	public function get_options(){
