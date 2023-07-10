@@ -47,6 +47,15 @@ class User_model extends CI_Model{
             return 0;
         }
     }
+
+    public function resetPasswordUser($username,$phone){
+        $this->db->where('username',$username);
+        if($this->db->update('tb_user',['password' => MD5($phone)])){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
     
     public function deleteUser($username){
         $this->db->where('username',$username);

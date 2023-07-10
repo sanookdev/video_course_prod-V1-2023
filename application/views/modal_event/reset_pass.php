@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" id="form_resetpass">
+                <form id="form_resetpass">
                     <div class="mb-3">
                         <label for="username">Username :</label>
                         <input type="text" class="form-control form-control-sm" placeholder="Username" name="username"
@@ -16,8 +16,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="password">New Password :</label>
-                        <input type="text" class="form-control form-control-sm" placeholder="password" name="password"
-                            required>
+                        <input type="text" class="form-control form-control-sm" minlength="4" placeholder="password"
+                            name="password" required>
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-sm btn-success btn-block">อัพเดต</button>

@@ -70,12 +70,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <p>Titles</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?= site_url('videos/list_manage')?>" id="nav-listvideo" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Videos</p>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
                 <li class="nav-item has-treeview users_header">

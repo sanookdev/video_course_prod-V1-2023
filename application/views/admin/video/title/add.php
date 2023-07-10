@@ -29,7 +29,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Video Contents </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="<?= site_url('videos/title');?>">Title </a>
+                                <li class="breadcrumb-item"><a href="<?= site_url('videos/title_manage');?>">Title </a>
                                 </li>
                                 <li class="breadcrumb-item active">Add</li>
                             </ol>

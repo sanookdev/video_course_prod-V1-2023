@@ -82,10 +82,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                 <td><?= $value->fname . " " . $value->lname ;?></td>
                                                 <td><?= $value->username;?></td>
                                                 <td>
-                                                    <button type="button" name="edit"
-                                                        class="btn btn-sm btn-block btn-warning edit_data"
-                                                        id="<?= $value->username; ?>"><i class="fas fa-edit"></i>
-                                                        Change Password</button>
+
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-block btn-info edit_data"
+                                                        onclick="resetPasswordUser('<?= $value->username?>','<?= $value->phone?>')">
+                                                        <i class="fas fa-undo"></i>
+                                                        Reset password
+                                                    </button>
+                                                    <p class="small text-center" style="opacity:0.8">Default password is
+                                                        mobile no.</p>
                                                 </td>
                                                 <td><?= $value->phone;?></td>
                                                 <td>
@@ -185,40 +190,41 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 });
             }
 
-            $(document).on('click', '.edit_data', function() {
-                var id = $(this).attr("id");
-                $('input[name="username"]').val(id);
-                $('#reset_pass').modal('show');
-            });
+            resetPasswordUser = (username, phone) => {
+                alertify.confirm("Are you sure for reset password account '" + username + "' ?",
+                    function() {
+                        let data = {};
+                        data['username'] = username;
+                        data['phone'] = phone;
+                        var baseUrl = "<?= base_url();?>";
+                        var submissionURL = baseUrl + 'Users/resetPasswordUser';
+                        $.ajax({
+                            type: "POST",
+                            url: submissionURL,
+                            method: 'POST',
+                            dataType: 'json',
+                            data: {
+                                data
+                            },
+                            success: function(res) {
+                                if (res.status) {
+                                    alertify
+                                        .alert(res.message,
+                                            function() {
+                                                location.reload();
+                                            });
+                                } else {
+                                    alertify.error(res.message);
+                                }
+                            },
+                        });
+                    },
+                    function() {
+                        alertify.error('Cancel');
+                    });
+            }
 
-            $('#form_resetpass').on("submit", function(event) {
-                event.preventDefault();
-                let where = "username=" + $('input[name=username]').val();
-                let table = 'user';
-                let data = {};
-                data['username'] = $('input[name=username]').val();
-                data['password'] = $('input[name=password]').val();
-                var baseUrl = "<?= base_url();?>";
-                var submissionURL = baseUrl + 'Users/updatePassword';
-                $.ajax({
-                    type: "POST",
-                    url: submissionURL,
-                    method: 'POST',
-                    dataType: 'json',
-                    data: {
-                        data
-                    },
-                    success: function(data) {
-                        $('#reset_pass').modal('hide');
-                        $('input[name= password]').val('');
-                        if (data.status) {
-                            alertify.success(data.message);
-                        } else {
-                            alertify.error(data.message);
-                        }
-                    },
-                });
-            });
+
             deleteUser = (username) => {
                 let data = {};
                 alertify.confirm("Are you sure for delete account '" + username + "' ?",

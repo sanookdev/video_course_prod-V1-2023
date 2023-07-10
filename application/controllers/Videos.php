@@ -53,7 +53,6 @@ class Videos extends CI_Controller
 	
 
 	public function subject($title_id = '1') {
-
 		if($this->session->userdata['user_role'] == '1'){
 			$contents = $this->Video_model->fetchVideoByTitle($title_id);
 		}else{
@@ -63,14 +62,18 @@ class Videos extends CI_Controller
 		$data['title'] = $this->Video_model->fetchTitleById($title_id);
         $data['options'] = $this->Setting_model->get_options();
 		$data['titles'] = $this->title;
-		$this->load->view('myCss');
-		$this->load->view('myJs');
-		$this->load->view('_partials/head',$data);
-		$this->load->view('_partials/navbar');
-		$this->load->view('_partials/sidebar_main');
-		$this->load->view('video/clip/list');
-		$this->load->view('_partials/sidebar_control');
-		$this->load->view('_partials/footer');
+		if(count($contents) > 0){
+			$this->load->view('myCss');
+			$this->load->view('myJs');
+			$this->load->view('_partials/head',$data);
+			$this->load->view('_partials/navbar');
+			$this->load->view('_partials/sidebar_main');
+			$this->load->view('video/clip/list');
+			$this->load->view('_partials/sidebar_control');
+			$this->load->view('_partials/footer');
+		}else{
+			show_404();
+		}
     }
 
 	public function fetchVideoByTitle(){

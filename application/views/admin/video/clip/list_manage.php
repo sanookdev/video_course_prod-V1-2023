@@ -170,41 +170,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     }
                 });
             }
-
-            $(document).on('click', '.edit_data', function() {
-                var id = $(this).attr("id");
-                $('input[name="username"]').val(id);
-                $('#reset_pass').modal('show');
-            });
-
-            $('#form_resetpass').on("submit", function(event) {
-                event.preventDefault();
-                let where = "username=" + $('input[name=username]').val();
-                let table = 'user';
-                let data = {};
-                data['username'] = $('input[name=username]').val();
-                data['password'] = $('input[name=password]').val();
-                var baseUrl = "<?= base_url();?>";
-                var submissionURL = baseUrl + 'Users/updatePassword';
-                $.ajax({
-                    type: "POST",
-                    url: submissionURL,
-                    method: 'POST',
-                    dataType: 'json',
-                    data: {
-                        data
-                    },
-                    success: function(data) {
-                        $('#reset_pass').modal('hide');
-                        $('input[name= password]').val('');
-                        if (data.status) {
-                            alertify.success(data.message);
-                        } else {
-                            alertify.error(data.message);
-                        }
-                    },
-                });
-            });
             deleteVideo = (video_id, title_id, filename) => {
                 let data = {};
                 alertify.confirm("Are you sure for delete video id : '" + video_id + "' ?",
