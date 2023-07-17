@@ -62,7 +62,8 @@ class Videos extends CI_Controller
 		$data['title'] = $this->Video_model->fetchTitleById($title_id);
         $data['options'] = $this->Setting_model->get_options();
 		$data['titles'] = $this->title;
-		if(count($contents) > 0){
+	
+		if(count($data['title']) > 0){
 			$this->load->view('myCss');
 			$this->load->view('myJs');
 			$this->load->view('_partials/head',$data);
@@ -72,7 +73,7 @@ class Videos extends CI_Controller
 			$this->load->view('_partials/sidebar_control');
 			$this->load->view('_partials/footer');
 		}else{
-			show_404();
+			show_error('This title not found.',403);
 		}
     }
 
@@ -92,7 +93,6 @@ class Videos extends CI_Controller
 	}
 
 	public function play($video_id = null) {
-
 		$video_details = $this->Video_model->fetchVideoById($video_id);
         $data['options'] = $this->Setting_model->get_options();
 		$data['titles'] = $this->title;
@@ -114,5 +114,4 @@ class Videos extends CI_Controller
 		$this->load->view('_partials/sidebar_control');
 		$this->load->view('_partials/footer');
     }
-
 }

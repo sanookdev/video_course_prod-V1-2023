@@ -47,6 +47,7 @@ class Member extends CI_Controller {
 						'user_role' => $user->user_role
 					);
 					$this->session->set_userdata($sess);
+					$this->Member_model->save_log($user->id,'1');
 				}else{
 					$this->load->library('session');
 					$this->session->set_flashdata('err_message', 'Email or Password is invalid');
@@ -58,6 +59,8 @@ class Member extends CI_Controller {
 	}
 
 	public function logout(){
+		$user_id = $this->session->userdata('id');
+		$this->Member_model->save_log($user_id,'2');
 		$this->session->sess_destroy();
 		redirect('member');
 	}

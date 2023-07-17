@@ -11,6 +11,14 @@ class Member_model extends CI_Model{
         $query = $this->db->get('tb_user',1);
         return $query->row();
     }
+
+    public function save_log($user_id , $status){
+        $data = array(
+            'user_id' => $user_id,
+            'status' => $status
+        );
+        $this->db->insert('tb_logs',$data);
+    }
     // public function create_user($username,$password){
     //     $this->db->select('*');
     //     $this->db->where('userName',$username);

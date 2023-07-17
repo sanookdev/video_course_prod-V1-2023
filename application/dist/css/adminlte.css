@@ -46,6 +46,9 @@
 *::after {
   box-sizing: border-box;
 }
+.sidebar {
+  height: 100%;
+}
 
 html {
   font-family: sans-serif;

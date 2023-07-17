@@ -78,8 +78,8 @@ class Users extends CI_Controller
 			'status' => 0
 		);
 		if($this->User_model->checkDuplicate($username)){
-			$res['message'] = 'This email has already exit. !';
-			$res['status'] = 0;
+			$this->session->set_flashdata('err_message', $username.'<br> This email has already exit. !');
+			$this->session->set_flashdata('status', 1);
 		}else{
 			if($this->User_model->create($this->input->post())){
 				$this->session->set_flashdata('err_message', 'This email has been created.');

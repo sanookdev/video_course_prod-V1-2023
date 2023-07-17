@@ -70,12 +70,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <p>Titles</p>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="<?= site_url('videos/list_manage')?>" id="nav-listvideo" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Videos</p>
                             </a>
-                        </li> -->
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview users_header">
@@ -155,9 +155,12 @@ $(document).ready(function() {
         }
         if (page == 'users') {
             $('.users_header').addClass('menu-open');
-        } else if (page == 'videos') {
+        } else if (page == 'videos' || page == 'title_manage_details') {
             $('.contents_header').addClass('menu-open');
-            if (action == 'addtitle') {
+            if (page == 'title_manage_details') {
+                $('#nav-listtitle').addClass('active');
+            }
+            if (action == 'addtitle' || action == 'addvideo') {
                 $('#nav-listtitle').addClass('active');
             } else if (action == 'addvideo') {
                 $('#nav-listvideo').addClass('active');

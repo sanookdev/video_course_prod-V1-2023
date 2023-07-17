@@ -96,6 +96,9 @@ $route['upload/remove_image/(:any)'] = 'upload/remove_image/$1';
 // ----------------------------    UPLOAD MANAGEMENT(END)    ----------------------------
 
 
+$route['video/protected/(:any)'] = 'videoController/play/$1';
+
+
 
 $route['404_override'] = 'errors/error404';
 $route['translate_uri_dashes'] = FALSE;

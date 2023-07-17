@@ -55,8 +55,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         <div class="col-md-4">
                                             <div class="card card-info card-outline">
                                                 <div class="card-header">
-                                                    <h5 class="card-title">
-                                                        <?= $value->name."<br><p class = 'small text-info'>updated : ".$value->last_updated."</p>" ;?>
+                                                    <h5 class="card-title col-md-9">
+                                                        <?= $value->name."<br><p class = 'small text-info'>updated : ".date('d-M-Y', strtotime($value->last_updated))."</p>" ;?>
                                                     </h5>
                                                     <div class="card-tools">
                                                         <a href="#" class="btn btn-tool"><?= 'V_ID #'.$value->id ;?></a>
@@ -64,11 +64,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                             <i class="fas fa-video"></i>
                                                         </a>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <button onclick="showVideo('<?= $value->id?>')"
-                                                            class="btn btn-sm btn-info btn-block">
-                                                            <i class="fas fa-video"></i> Click to show video. </button>
-                                                    </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button onclick="showVideo('<?= $value->id?>')"
+                                                        class="btn btn-sm btn-info btn-block">
+                                                        <i class="fas fa-video"></i> Click to show video. </button>
                                                 </div>
                                             </div>
                                         </div>

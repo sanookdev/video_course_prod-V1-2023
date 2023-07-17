@@ -46,4 +46,8 @@
     background-color: rgba(255, 255, 255, .9) !important;
     color: #343a40 !important;
 }
+
+.sidebar {
+    height: 100% !important;
+}
 </style>

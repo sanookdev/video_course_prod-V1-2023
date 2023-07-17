@@ -14,6 +14,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
         }
         unset($response);
     }
+    if(!isset($title[0])){
+        show_404();
+    }
 ?>
 
 
@@ -159,7 +162,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                     <th width="10%">Created</th>
                                                                     <th>Fullname</th>
                                                                     <th>Username</th>
-                                                                    <th width="5%" class="pull-right">#</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody class="data">
@@ -174,13 +176,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                     <td><?= $value->created;?></td>
                                                                     <td><?= $value->fname . " " . $value->lname ;?></td>
                                                                     <td><?= $value->username;?></td>
-
-                                                                    <td>
-                                                                        <a class="btn btn-danger" targetDiv=""
-                                                                            data-id="<?= $value->id?>"
-                                                                            onclick="deleteUserPermission('<?= $value->id ;?>')"><i
-                                                                                class="fas fa-trash"></i></a>
-                                                                    </td>
                                                                 </tr>
                                                                 <?$i++;
                                         }?>
@@ -219,7 +214,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                     <th width="10%">Created</th>
                                                                     <th>Fullname</th>
                                                                     <th>Username</th>
-                                                                    <th width="5%" class="pull-right">#</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody class="data">
@@ -236,13 +230,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                     <td><?= $value->created;?></td>
                                                                     <td><?= $value->fname . " " . $value->lname ;?></td>
                                                                     <td><?= $value->username;?></td>
-
-                                                                    <td>
-                                                                        <a class="btn btn-danger" targetDiv=""
-                                                                            data-id="<?= $value->id?>"
-                                                                            onclick="deleteUserPermission('<?= $value->id ;?>')"><i
-                                                                                class="fas fa-trash"></i></a>
-                                                                    </td>
                                                                 </tr>
                                                                 <?}?>
                                                             </tbody>
